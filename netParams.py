@@ -11,13 +11,23 @@ netParams = specs.NetParams()  # object of class NetParams to store the network 
 ## Population parameters
 netParams.popParams['S'] = {'cellType': 'PYR', 'numCells': 20, 'cellModel': 'HH'}
 netParams.popParams['M'] = {'cellType': 'PYR', 'numCells': 20, 'cellModel': 'HH'}
+netParams.popParams['CA229py'] = {'cellType': 'detailed', 'numCells': 1, 'cellModel': 'HH'}
+#netParams.popParams['CA229hoc'] = {'cellType': 'detailed', 'numCells': 1, 'cellModel': 'blank'}
+
 
 ## Cell property rules
 cellRule = {'conds': {'cellType': 'PYR'},  'secs': {}} 	# cell rule dict
 cellRule['secs']['soma'] = {'geom': {}, 'mechs': {}}  														# soma params dict
 cellRule['secs']['soma']['geom'] = {'diam': 18.8, 'L': 18.8, 'Ra': 123.0}  									# soma geometry
 cellRule['secs']['soma']['mechs']['hh'] = {'gnabar': 0.12, 'gkbar': 0.036, 'gl': 0.003, 'el': -70}  		# soma hh mechanism
-netParams.cellParams['PYRrule'] = cellRule  												# add dict to list of cell params
+netParams.cellParams['PYRrule'] = cellRule  
+
+cellRule = netParams.importCellParams(label='CA229py', conds={'pop': 'CA229py'}, fileName='cells/CA_229.py', cellName='MakeCell', importSynMechs=True)
+
+#cellRule = netParams.importCellParams(label='CA229hoc', conds={'pop': 'CA229hoc'}, fileName='cells/CA_229.hoc', importSynMechs=False)
+
+
+
 
 ## Synaptic mechanism parameters
 netParams.synMechParams['exc'] = {'mod': 'Exp2Syn', 'tau1': 0.1, 'tau2': cfg.synMechTau2, 'e': 0}  # excitatory synaptic mechanism
